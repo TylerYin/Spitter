@@ -1,4 +1,4 @@
-package com.spitter.dao.impl;
+package com.spitter.dao.hibernate.impl;
 
 import java.io.Serializable;
 import java.util.List;

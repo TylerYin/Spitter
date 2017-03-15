@@ -5,13 +5,13 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -25,12 +25,27 @@ import com.spitter.security.encoder.MD5Encoder;
 @EnableTransactionManagement
 public class DataConfig implements TransactionManagementConfigurer {
 
-	@Bean
+	//基于JDBC驱动的数据源，没有进行池化的管理
+	/**@Bean
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		dataSource.setUsername("yjfruby");
 		dataSource.setPassword("yjf090214");
+		dataSource.setUrl("jdbc:mysql://localhost:3306/Spitter?characterEncoding=utf-8&useSSL=true");
+		return dataSource;
+	}
+	**/
+	
+	//基于数据源连接池
+	@Bean
+	public DataSource dataSource() {
+		BasicDataSource dataSource = new BasicDataSource();
+		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+		dataSource.setUsername("yjfruby");
+		dataSource.setPassword("yjf090214");
+		dataSource.setInitialSize(3);
+		dataSource.setMaxTotal(5);
 		dataSource.setUrl("jdbc:mysql://localhost:3306/Spitter?characterEncoding=utf-8&useSSL=true");
 		return dataSource;
 	}
