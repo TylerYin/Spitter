@@ -12,9 +12,9 @@ import org.springframework.jms.listener.adapter.MessageListenerAdapter;
 import org.springframework.jms.remoting.JmsInvokerProxyFactoryBean;
 import org.springframework.jms.remoting.JmsInvokerServiceExporter;
 
-import com.spitter.activemq.alerts.ActiveMQJMS;
+import com.spitter.activemq.alerts.JMS;
 import com.spitter.activemq.alerts.ActiveMQJMSImpl;
-import com.spitter.activemq.alerts.SpittleActiveMQJMSHandler;
+import com.spitter.activemq.alerts.SpittleJMSHandler;
 
 @Configuration
 public class ActiveMQConfig {
@@ -28,7 +28,7 @@ public class ActiveMQConfig {
 	 */
 
 	@Autowired
-	private SpittleActiveMQJMSHandler spittleAlertHandler;
+	private SpittleJMSHandler spittleJMSHandler;
 
 	@Bean
 	public ActiveMQQueue spittleQueue() {
@@ -70,8 +70,8 @@ public class ActiveMQConfig {
 		return jmsTemplate;
 	}
 
-	@Bean
-	public ActiveMQJMSImpl alertService() {
+	@Bean(name = "activeMQJMS")
+	public ActiveMQJMSImpl activeMQJMS() {
 		return new ActiveMQJMSImpl();
 	}
 
@@ -83,8 +83,8 @@ public class ActiveMQConfig {
 	@Bean
 	public MessageListenerAdapter messageListenerAdapter() {
 		MessageListenerAdapter messageListenerAdapter = new MessageListenerAdapter();
-		messageListenerAdapter.setDelegate(spittleAlertHandler);
-		messageListenerAdapter.setDefaultListenerMethod("handleSpittleAlert");
+		messageListenerAdapter.setDelegate(spittleJMSHandler);
+		messageListenerAdapter.setDefaultListenerMethod("handleSpittleJMS");
 		return messageListenerAdapter;
 	}
 
@@ -101,8 +101,8 @@ public class ActiveMQConfig {
 	// @Bean
 	public JmsInvokerServiceExporter alertServiceExporter() {
 		JmsInvokerServiceExporter jmsInvokerServiceExporter = new JmsInvokerServiceExporter();
-		jmsInvokerServiceExporter.setService(alertService());
-		jmsInvokerServiceExporter.setServiceInterface(ActiveMQJMS.class);
+		jmsInvokerServiceExporter.setService(activeMQJMS());
+		jmsInvokerServiceExporter.setServiceInterface(JMS.class);
 		return jmsInvokerServiceExporter;
 	}
 
@@ -111,7 +111,7 @@ public class ActiveMQConfig {
 		JmsInvokerProxyFactoryBean jmsInvokerProxyFactoryBean = new JmsInvokerProxyFactoryBean();
 		jmsInvokerProxyFactoryBean.setConnectionFactory(connectionFactory());
 		jmsInvokerProxyFactoryBean.setQueueName("spitter.alert.queue");
-		jmsInvokerProxyFactoryBean.setServiceInterface(ActiveMQJMS.class);
+		jmsInvokerProxyFactoryBean.setServiceInterface(JMS.class);
 		return jmsInvokerProxyFactoryBean;
 	}
 }

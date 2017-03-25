@@ -15,12 +15,12 @@ import com.spitter.orm.domain.Spittle;
  */
 
 @Component
-public class SpittleActiveMQJMSHandler {// implements MessageListener{
+public class SpittleJMSHandler {// implements MessageListener{
 
 	@Autowired
 	private SpitterMailService mailService;
 
-	public void handleSpittleAlert(Spitter spitter) {
+	public void handleSpittleJMS(Spitter spitter) {
 		try {
 			sendSimpleSpittleEmail(spitter);
 		} catch (Exception e) {
@@ -28,7 +28,7 @@ public class SpittleActiveMQJMSHandler {// implements MessageListener{
 		}
 	}
 
-	public void handleSpittleAlert(String spitter) {
+	public void handleSpittleJMS(String spitter) {
 		System.out.println(spitter);
 	}
 
