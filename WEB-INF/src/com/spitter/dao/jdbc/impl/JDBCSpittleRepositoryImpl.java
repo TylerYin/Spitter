@@ -7,19 +7,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
-import com.spitter.dao.SpitterRepositoryDao;
+import com.spitter.dao.SpittleRepositoryDao;
 import com.spitter.orm.domain.Spitter;
 import com.spitter.orm.domain.Spittle;
 
-public class JDBCSpittleRepositoryImpl implements SpitterRepositoryDao {
+public class JDBCSpittleRepositoryImpl implements SpittleRepositoryDao {
 
-	private static final String SELECT_SPITTLE = "select sp.id, s.id as spitterId, s.username, s.password, s.fullname, s.email, s.updateByEmail, sp.message, sp.postedTime from Spittle sp, Spitter s where sp.spitter = s.id";
-	private static final String SELECT_SPITTLE_BY_ID = SELECT_SPITTLE + " and sp.id=?";
+	private static final String SELECT_SPITTLE = "select sp.id, s.id as spitterId, s.username, s.password, s.firstname, s.lastName, s.email, s.role, sp.message, sp.postedTime from Spittle sp, Spitter s where sp.spitter = s.id";
 	private static final String SELECT_SPITTLES_BY_SPITTER_ID = SELECT_SPITTLE
 			+ " and s.id=? order by sp.postedTime desc";
 	private static final String SELECT_RECENT_SPITTLES = SELECT_SPITTLE + " order by sp.postedTime desc limit ?";
@@ -31,34 +29,33 @@ public class JDBCSpittleRepositoryImpl implements SpitterRepositoryDao {
 	}
 
 	public long count() {
-		return jdbcTemplate.queryForLong("select count(id) from Spittle");
+		return jdbcTemplate.queryForObject("select count(id) from Spittle", Long.class);
 	}
 
+	@Override
 	public List<Spittle> findRecent() {
 		return findRecent(10);
 	}
 
+	@Override
 	public List<Spittle> findRecent(int count) {
 		return jdbcTemplate.query(SELECT_RECENT_SPITTLES, new SpittleRowMapper(), count);
 	}
 
-	public Spitter findOne(long id) {
-		try {
-			return null;
-			// return jdbcTemplate.queryForObject(SELECT_SPITTLE_BY_ID, new
-			// SpittleRowMapper(), id);
-		} catch (EmptyResultDataAccessException e) {
-			return null;
-		}
+	@Override
+	public Spittle findOne(long id) {
+		return jdbcTemplate.queryForObject(SELECT_SPITTLES_BY_SPITTER_ID, new SpittleRowMapper(), id);
 	}
 
-	public List<Spittle> findBySpitterId(long spitterId) {
-		return jdbcTemplate.query(SELECT_SPITTLES_BY_SPITTER_ID, new SpittleRowMapper(), spitterId);
-	}
-
+	@Override
 	public Spittle save(Spittle spittle) {
 		long spittleId = insertSpittleAndReturnId(spittle);
 		return new Spittle(spittleId, spittle.getSpitter(), spittle.getMessage(), spittle.getPostedTime());
+	}
+
+	@Override
+	public List<Spittle> findBySpitterId(long spitterId) {
+		return jdbcTemplate.query(SELECT_SPITTLES_BY_SPITTER_ID, new SpittleRowMapper(), spitterId);
 	}
 
 	private long insertSpittleAndReturnId(Spittle spittle) {
@@ -72,8 +69,16 @@ public class JDBCSpittleRepositoryImpl implements SpitterRepositoryDao {
 		return spittleId;
 	}
 
+	@Override
 	public void delete(long id) {
 		jdbcTemplate.update("delete from Spittle where id=?", id);
+	}
+
+	@Override
+	public List<Spittle> findAll() {
+		return jdbcTemplate.query(
+				"select id, username, password, firstname, lastName, email, role from Spitter order by id",
+				new SpittleRowMapper());
 	}
 
 	private static final class SpittleRowMapper implements RowMapper<Spittle> {
@@ -84,31 +89,12 @@ public class JDBCSpittleRepositoryImpl implements SpitterRepositoryDao {
 			long spitterId = rs.getLong("spitterId");
 			String username = rs.getString("username");
 			String password = rs.getString("password");
-			String firstName = rs.getString("firstName");
+			String firstname = rs.getString("firstname");
 			String lastName = rs.getString("lastName");
 			String email = rs.getString("email");
-			boolean updateByEmail = rs.getBoolean("updateByEmail");
-			Spitter spitter = new Spitter(spitterId, username, password, firstName, lastName, email, null);
+			String role = rs.getString("role");
+			Spitter spitter = new Spitter(spitterId, username, password, firstname, lastName, email, role);
 			return new Spittle(id, spitter, message, postedTime);
 		}
 	}
-
-	@Override
-	public Spitter save(Spitter spitter) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Spitter findByUserName(String userName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Spitter> findAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

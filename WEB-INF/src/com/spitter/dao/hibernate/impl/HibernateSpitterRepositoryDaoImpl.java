@@ -39,14 +39,7 @@ public class HibernateSpitterRepositoryDaoImpl implements SpitterRepositoryDao {
 	@Override
 	@Transactional
 	public Spitter save(Spitter spitter) {
-//		Spitter spitter = new Spitter();
-//		spitter.setEmail(spitterForm.getEmail());
-//		spitter.setFirstname(spitterForm.getFirstname());
-//		spitter.setLastName(spitterForm.getLastName());
 		spitter.setPassword(md5Encoder.encode(spitter.getPassword()));
-//		spitter.setRole(spitterForm.getRole());
-		//		spitter.setUsername(spitterForm.getUsername());
-		
 		Serializable id = currentSession().save(spitter);
 		return new Spitter((Long) id, spitter.getUsername(), spitter.getPassword(), spitter.getFirstname(),
 				spitter.getLastName(), spitter.getEmail(), spitter.getRole());
@@ -71,7 +64,6 @@ public class HibernateSpitterRepositoryDaoImpl implements SpitterRepositoryDao {
 
 	@Override
 	public void delete(long id) {
-		// TODO Auto-generated method stub
-		
+		currentSession().delete(findOne(id));
 	}
 }
