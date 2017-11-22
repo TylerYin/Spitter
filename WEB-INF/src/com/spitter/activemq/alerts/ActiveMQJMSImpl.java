@@ -6,7 +6,7 @@ import org.springframework.jms.core.JmsOperations;
 
 import com.spitter.orm.domain.Spitter;
 
-public class ActiveMQJMSImpl implements ActiveMQJMS {
+public class ActiveMQJMSImpl implements JMS {
 
 	@Inject
 	private JmsOperations jmsOperations;

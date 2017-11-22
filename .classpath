@@ -90,6 +90,14 @@
 	<classpathentry kind="lib" path="WEB-INF/lib/hawtbuf-1.11.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/log4j-1.2.16.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/slf4j-log4j12-1.7.5.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/commons-dbcp2-2.1.1.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/commons-pool2-2.4.2.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/amqp-client-2.5.0.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/spring-amqp-1.0.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/spring-rabbit-1.0.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/activemq-core-5.7.0.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/activemq-protobuf-1.1.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/commons-io-1.2.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/servlet-api.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/jasper.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/jsp-api.jar"/>
