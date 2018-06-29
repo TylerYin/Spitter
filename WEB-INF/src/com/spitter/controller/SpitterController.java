@@ -66,7 +66,7 @@ public class SpitterController {
 		}
 
 		spitterRestClient.saveSpitter(spitter);
-		activeMQJMS.sendSpittleAlert(spitter);
+		//activeMQJMS.sendSpittleAlert(spitter);
 		amqpJMSImpl.sendSpittleAlert(spitter);
 		return "redirect:/spitter/" + spitter.getUsername();
 	}

@@ -98,6 +98,10 @@
 	<classpathentry kind="lib" path="WEB-INF/lib/activemq-core-5.7.0.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/activemq-protobuf-1.1.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/commons-io-1.2.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/jedis-2.9.0.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/spring-data-commons-1.8.4.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/spring-data-redis-1.6.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/spring-jedis-1.0.0.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/servlet-api.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/jasper.jar"/>
 	<classpathentry kind="var" path="TOMCAT_HOME/lib/jsp-api.jar"/>

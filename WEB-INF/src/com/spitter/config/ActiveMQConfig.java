@@ -16,7 +16,7 @@ import com.spitter.activemq.alerts.JMS;
 import com.spitter.activemq.alerts.ActiveMQJMSImpl;
 import com.spitter.activemq.alerts.SpittleJMSHandler;
 
-@Configuration
+//@Configuration
 public class ActiveMQConfig {
 
 	/**
