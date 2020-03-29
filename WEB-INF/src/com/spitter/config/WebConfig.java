@@ -22,78 +22,80 @@ import org.springframework.web.servlet.view.xml.MarshallingView;
 import com.spitter.domain.User;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 
+/**
+ * @author Tyler Yin
+ */
 @Configuration
 @EnableWebMvc
 @ComponentScan("com.spitter.controller")
 public class WebConfig extends WebMvcConfigurerAdapter {
 
-	@Override
-	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-		configurer.enable();
-	}
-	
-	@Override
-	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/login").setViewName("login");
-	}
-	
-	@Bean
-	public TilesConfigurer tilesConfigurer() {
-		TilesConfigurer tiles = new TilesConfigurer();
-		tiles.setDefinitions(new String[] { "/WEB-INF/views/layout/tiles.xml" });
-		tiles.setCheckRefresh(true);
-		return tiles;
-	}
+    @Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
+    }
 
-	@Bean
-	public ViewResolver viewResolver() {
-		return new TilesViewResolver();
-	}
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/login").setViewName("login");
+    }
 
-	// Excel及PDF视图解析器配置
-	@Bean
-	public ViewResolver beanNameViewResolver() {
-		BeanNameViewResolver beanNameViewResolver = new BeanNameViewResolver();
-		beanNameViewResolver.setOrder(10);
-		return beanNameViewResolver;
-	}
+    @Bean
+    public TilesConfigurer tilesConfigurer() {
+        TilesConfigurer tiles = new TilesConfigurer();
+        tiles.setDefinitions(new String[]{"/WEB-INF/views/layout/tiles.xml"});
+        tiles.setCheckRefresh(true);
+        return tiles;
+    }
 
-	// 错误消息和显示标签的国际化
-	@Bean
-	public MessageSource messageSource() {
-		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-		messageSource.setBasenames("classpath:LabelMessages", "classpath:ValidationMessages");
-		messageSource.setDefaultEncoding("UTF-8");
-		messageSource.setCacheSeconds(0);
-		Properties properties = new Properties();
-		properties.put("fileEncodings", "UTF-8");
-		messageSource.setFileEncodings(properties);
-		return messageSource;
-	}
+    @Bean
+    public ViewResolver viewResolver() {
+        return new TilesViewResolver();
+    }
 
-	//输出XML
-	@Bean
-	public XStreamMarshaller xstreamMarshaller() {
-		XStreamMarshaller xstreamMarshaller = new XStreamMarshaller();
-		xstreamMarshaller.setStreamDriver(new StaxDriver());
-		xstreamMarshaller.setAnnotatedClasses(User.class);
-		return xstreamMarshaller;
-	}
+    // Excel及PDF视图解析器配置
+    @Bean
+    public ViewResolver beanNameViewResolver() {
+        BeanNameViewResolver beanNameViewResolver = new BeanNameViewResolver();
+        beanNameViewResolver.setOrder(10);
+        return beanNameViewResolver;
+    }
 
-	@Bean(name = "userListXML")
-	public MarshallingView marshallingView() {
-		MarshallingView marshallingView = new MarshallingView();
-		marshallingView.setModelKey("userList");
-		marshallingView.setMarshaller(xstreamMarshaller());
-		return marshallingView;
-	}
+    // 错误消息和显示标签的国际化
+    @Bean
+    public MessageSource messageSource() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasenames("classpath:LabelMessages", "classpath:ValidationMessages");
+        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setCacheSeconds(0);
+        Properties properties = new Properties();
+        properties.put("fileEncodings", "UTF-8");
+        messageSource.setFileEncodings(properties);
+        return messageSource;
+    }
 
-	//输出JSON
-	@Bean(name = "userListJSON")
-	public MappingJackson2JsonView mappingJackson2JsonView() {
-		MappingJackson2JsonView mappingJacksonJson2View = new MappingJackson2JsonView();
-		mappingJacksonJson2View.setModelKey("userList");
-		return mappingJacksonJson2View;
-	}
+    //输出XML
+    @Bean
+    public XStreamMarshaller xstreamMarshaller() {
+        XStreamMarshaller xstreamMarshaller = new XStreamMarshaller();
+        xstreamMarshaller.setStreamDriver(new StaxDriver());
+        xstreamMarshaller.setAnnotatedClasses(User.class);
+        return xstreamMarshaller;
+    }
 
+    @Bean(name = "userListXML")
+    public MarshallingView marshallingView() {
+        MarshallingView marshallingView = new MarshallingView();
+        marshallingView.setModelKey("userList");
+        marshallingView.setMarshaller(xstreamMarshaller());
+        return marshallingView;
+    }
+
+    //输出JSON
+    @Bean(name = "userListJSON")
+    public MappingJackson2JsonView mappingJackson2JsonView() {
+        MappingJackson2JsonView mappingJacksonJson2View = new MappingJackson2JsonView();
+        mappingJacksonJson2View.setModelKey("userList");
+        return mappingJacksonJson2View;
+    }
 }

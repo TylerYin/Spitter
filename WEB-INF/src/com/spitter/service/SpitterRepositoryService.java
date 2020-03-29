@@ -9,24 +9,24 @@ import org.springframework.cache.annotation.Cacheable;
 import com.spitter.orm.domain.Spitter;
 
 /**
- * Service interface with operations persistence.
+ * @author Tyler Yin
  */
 public interface SpitterRepositoryService {
 
-	long count();
+    long count();
 
-	@CachePut(value = "spittleCache", key = "#result.id")
-	Spitter save(Spitter spitter);
+    @CachePut(value = "spittleCache", key = "#result.id")
+    Spitter save(Spitter spitter);
 
-	@Cacheable("spittleCache")
-	Spitter findOne(long id);
+    @Cacheable("spittleCache")
+    Spitter findOne(long id);
 
-	@Cacheable("spittleCache")
-	Spitter findByUserName(String userName);
+    @Cacheable("spittleCache")
+    Spitter findByUserName(String userName);
 
-	@Cacheable("spittleCache")
-	List<Spitter> findAll();
+    @Cacheable("spittleCache")
+    List<Spitter> findAll();
 
-	@CacheEvict(value = "spittleCache", condition = "")
-	void delete(long id);
+    @CacheEvict(value = "spittleCache", condition = "")
+    void delete(long id);
 }

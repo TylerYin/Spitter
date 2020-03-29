@@ -5,20 +5,18 @@ import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.activemq.command.ActiveMQTopic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
 import org.springframework.jms.listener.adapter.MessageListenerAdapter;
 import org.springframework.jms.remoting.JmsInvokerProxyFactoryBean;
 import org.springframework.jms.remoting.JmsInvokerServiceExporter;
 
-import com.spitter.activemq.alerts.JMS;
-import com.spitter.activemq.alerts.ActiveMQJMSImpl;
-import com.spitter.activemq.alerts.SpittleJMSHandler;
+import com.spitter.activemq.alerts.Jms;
+import com.spitter.activemq.alerts.ActiveMqJmsImpl;
+import com.spitter.activemq.alerts.SpittleJmsHandler;
 
 //@Configuration
-public class ActiveMQConfig {
-
+public class ActiveMqConfig {
 	/**
 	 * ActiveMQ5.0版本默认启动时，启动了内置的jetty服务器，提供一个demo应用和用于监控ActiveMQ的admin应用。
 	 * admin：http://127.0.0.1:8161/admin/ 用户名，密码都是 admin
@@ -28,7 +26,7 @@ public class ActiveMQConfig {
 	 */
 
 	@Autowired
-	private SpittleJMSHandler spittleJMSHandler;
+	private SpittleJmsHandler spittleJmsHandler;
 
 	@Bean
 	public ActiveMQQueue spittleQueue() {
@@ -71,8 +69,8 @@ public class ActiveMQConfig {
 	}
 
 	@Bean(name = "activeMQJMS")
-	public ActiveMQJMSImpl activeMQJMS() {
-		return new ActiveMQJMSImpl();
+	public ActiveMqJmsImpl activeMQJMS() {
+		return new ActiveMqJmsImpl();
 	}
 
 	/**
@@ -83,7 +81,7 @@ public class ActiveMQConfig {
 	@Bean
 	public MessageListenerAdapter messageListenerAdapter() {
 		MessageListenerAdapter messageListenerAdapter = new MessageListenerAdapter();
-		messageListenerAdapter.setDelegate(spittleJMSHandler);
+		messageListenerAdapter.setDelegate(spittleJmsHandler);
 		messageListenerAdapter.setDefaultListenerMethod("handleSpittleJMS");
 		return messageListenerAdapter;
 	}
@@ -102,7 +100,7 @@ public class ActiveMQConfig {
 	public JmsInvokerServiceExporter alertServiceExporter() {
 		JmsInvokerServiceExporter jmsInvokerServiceExporter = new JmsInvokerServiceExporter();
 		jmsInvokerServiceExporter.setService(activeMQJMS());
-		jmsInvokerServiceExporter.setServiceInterface(JMS.class);
+		jmsInvokerServiceExporter.setServiceInterface(Jms.class);
 		return jmsInvokerServiceExporter;
 	}
 
@@ -111,7 +109,7 @@ public class ActiveMQConfig {
 		JmsInvokerProxyFactoryBean jmsInvokerProxyFactoryBean = new JmsInvokerProxyFactoryBean();
 		jmsInvokerProxyFactoryBean.setConnectionFactory(connectionFactory());
 		jmsInvokerProxyFactoryBean.setQueueName("spitter.alert.queue");
-		jmsInvokerProxyFactoryBean.setServiceInterface(JMS.class);
+		jmsInvokerProxyFactoryBean.setServiceInterface(Jms.class);
 		return jmsInvokerProxyFactoryBean;
 	}
 }

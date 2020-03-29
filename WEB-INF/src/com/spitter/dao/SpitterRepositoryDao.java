@@ -5,19 +5,19 @@ import java.util.List;
 import com.spitter.orm.domain.Spitter;
 
 /**
- * Repository interface with operations persistence.
+ * @author Tyler Yin
  */
 public interface SpitterRepositoryDao {
 
-	long count();
+    long count();
 
-	Spitter save(Spitter spitter);
+    Spitter save(Spitter spitter);
 
-	Spitter findOne(long id);
+    Spitter findOne(long id);
 
-	Spitter findByUserName(String userName);
+    Spitter findByUserName(String userName);
 
-	List<Spitter> findAll();
+    List<Spitter> findAll();
 
-	void delete(long id);
+    void delete(long id);
 }

@@ -9,49 +9,52 @@ import com.spitter.dao.SpittleRepositoryDao;
 import com.spitter.orm.domain.Spittle;
 import com.spitter.service.SpittleRepositoryService;
 
+/**
+ * @author Tyler Yin
+ */
 @Service
 public class HibernateSpittleRepositoryServiceImpl implements SpittleRepositoryService {
 
-	@Autowired
-	private SpittleRepositoryDao spittleRepository;
+    @Autowired
+    private SpittleRepositoryDao spittleRepository;
 
-	@Override
-	public long count() {
-		return spittleRepository.count();
-	}
+    @Override
+    public long count() {
+        return spittleRepository.count();
+    }
 
-	@Override
-	public List<Spittle> findRecent() {
-		return spittleRepository.findRecent(10);
-	}
+    @Override
+    public List<Spittle> findRecent() {
+        return spittleRepository.findRecent(10);
+    }
 
-	@Override
-	public List<Spittle> findRecent(int count) {
-		return spittleRepository.findRecent();
-	}
+    @Override
+    public List<Spittle> findRecent(int count) {
+        return spittleRepository.findRecent();
+    }
 
-	@Override
-	public Spittle findOne(long id) {
-		return spittleRepository.findOne(id);
-	}
+    @Override
+    public Spittle findOne(long id) {
+        return spittleRepository.findOne(id);
+    }
 
-	@Override
-	public Spittle save(Spittle spittle) {
-		return spittleRepository.save(spittle);
-	}
+    @Override
+    public Spittle save(Spittle spittle) {
+        return spittleRepository.save(spittle);
+    }
 
-	@Override
-	public List<Spittle> findBySpitterId(long spitterId) {
-		return spittleRepository.findBySpitterId(spitterId);
-	}
+    @Override
+    public List<Spittle> findBySpitterId(long spitterId) {
+        return spittleRepository.findBySpitterId(spitterId);
+    }
 
-	@Override
-	public void delete(long id) {
-		spittleRepository.delete(id);
-	}
+    @Override
+    public void delete(long id) {
+        spittleRepository.delete(id);
+    }
 
-	@Override
-	public List<Spittle> findAll() {
-		return spittleRepository.findAll();
-	}
+    @Override
+    public List<Spittle> findAll() {
+        return spittleRepository.findAll();
+    }
 }

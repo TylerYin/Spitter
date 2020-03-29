@@ -24,50 +24,53 @@ import com.spitter.orm.domain.Spittle;
 import com.spitter.service.SpitterRepositoryService;
 import com.spitter.service.SpittleRepositoryService;
 
+/**
+ * @author Tyler Yin
+ */
 @RestController
 @RequestMapping("/rest")
 public class SpitterRestController {
+    /**
+     * @ResponseBody与@RestController註解的區別
+     * 1.@ResponseBody和@RequestBody是启用消息转换的一种简洁和强大的方式。
+     * 2.使用@RestController来代替@Controller的话，Spring将会为该控制器的所有方法应用消息转换器功能
+     */
 
-	/**
-	 * @ResponseBody与@RestController註解的區別 
-	 * 1.@ResponseBody和@RequestBody是启用消息转换的一种简洁和强大的方式。
-	 * 2.使用@RestController来代替@Controller的话，Spring将会为该控制器的所有方法应用消息转换器功能
-	 */
+    @Autowired
+    private SpittleRepositoryService spittleRepositoryService;
 
-	@Autowired
-	private SpittleRepositoryService spittleRepositoryService;
+    @Autowired
+    private SpitterRepositoryService spitterRepositoryService;
 
-	@Autowired
-	private SpitterRepositoryService spitterRepositoryService;
+    @RequestMapping(value = "/{userName}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<Spitter> findByUserName(@PathVariable String userName) {
+        return new ResponseEntity<>(spitterRepositoryService.findByUserName(userName), HttpStatus.FOUND);
+    }
 
-	@RequestMapping(value = "/{userName}", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<Spitter> findByUserName(@PathVariable String userName) {
-		return new ResponseEntity<Spitter>(spitterRepositoryService.findByUserName(userName), HttpStatus.FOUND);
-	}
+    @ResponseStatus(HttpStatus.FOUND)
+    @RequestMapping(value = "/spittles", method = RequestMethod.GET, produces = "application/json")
+    public List<Spittle> spittles() {
+        return spittleRepositoryService.findAll();
+    }
 
-	@ResponseStatus(HttpStatus.FOUND)
-	@RequestMapping(value = "/spittles", method = RequestMethod.GET, produces = "application/json")
-	public List<Spittle> spittles() {
-		return spittleRepositoryService.findAll();
-	}
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(value = "/saveSpitter", method = RequestMethod.POST, consumes = "application/json")
+    public ResponseEntity<Spitter> saveSpitter(@RequestBody Spitter spitter, UriComponentsBuilder ucb) {
+        Spitter saved = spitterRepositoryService.save(spitter);
 
-	@ResponseStatus(HttpStatus.CREATED)
-	@RequestMapping(value = "/saveSpitter", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<Spitter> saveSpitter(@RequestBody Spitter spitter, UriComponentsBuilder ucb) {
-		Spitter saved = spitterRepositoryService.save(spitter);
+        HttpHeaders headers = new HttpHeaders();
+        URI locationUri = ucb.path("/spittles/").path(String.valueOf(saved.getId())).build().toUri();
+        headers.setLocation(locationUri);
 
-		HttpHeaders headers = new HttpHeaders();
-		URI locationUri = ucb.path("/spittles/").path(String.valueOf(saved.getId())).build().toUri();
-		headers.setLocation(locationUri);
+        ResponseEntity<Spitter> responseEntity = new ResponseEntity<>(saved, headers, HttpStatus.CREATED);
+        return responseEntity;
+    }
 
-		ResponseEntity<Spitter> responseEntity = new ResponseEntity<Spitter>(saved, headers, HttpStatus.CREATED);
-		return responseEntity;
-	}
-
-	@ResponseStatus(HttpStatus.NOT_FOUND)
-	@ExceptionHandler(SpittleNotFoundException.class)
-	public @ResponseBody Error spittleNotFound(SpittleNotFoundException e) {
-		long spittleId = e.getSpittleId();
-		return new Error(4, "Spittle [" + spittleId + "] not found");
-	}
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(SpittleNotFoundException.class)
+    @ResponseBody
+    public Error spittleNotFound(SpittleNotFoundException e) {
+        long spittleId = e.getSpittleId();
+        return new Error(4, "Spittle [" + spittleId + "] not found");
+    }
 }

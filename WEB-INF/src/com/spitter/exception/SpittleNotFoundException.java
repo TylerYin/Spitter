@@ -1,16 +1,19 @@
 package com.spitter.exception;
 
+/**
+ * @author Tyler Yin
+ */
 public class SpittleNotFoundException extends RuntimeException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private long spittleId;
+    private long spittleId;
 
-	public SpittleNotFoundException(long spittleId) {
-		this.spittleId = spittleId;
-	}
+    public SpittleNotFoundException(long spittleId) {
+        this.spittleId = spittleId;
+    }
 
-	public long getSpittleId() {
-		return spittleId;
-	}
+    public long getSpittleId() {
+        return spittleId;
+    }
 }

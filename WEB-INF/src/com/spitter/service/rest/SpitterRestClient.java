@@ -5,10 +5,13 @@ import java.util.List;
 import com.spitter.orm.domain.Spitter;
 import com.spitter.orm.domain.Spittle;
 
+/**
+ * @author Tyler Yin
+ */
 public interface SpitterRestClient {
-	public List<Spittle> spittles();
+    List<Spittle> spittles();
 
-	public Spitter findByUserName(String username);
+    Spitter findByUserName(String username);
 
-	public Spitter saveSpitter(Spitter spitter);
+    Spitter saveSpitter(Spitter spitter);
 }

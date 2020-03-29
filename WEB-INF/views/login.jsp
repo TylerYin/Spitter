@@ -21,9 +21,8 @@
 				<tr>
 					<td colspan='2'><input id="remember_me" name="remember-me" type="checkbox" /> <label for="remember_me" class="inline">Remember me</label></td>
 				</tr>
-				<tr>
-					<td><input name="submit" type="submit" value="Login" /></td>
-					<td><a href="<c:url value="/spitter/register" />">Register</a></td>
+				<tr style="text-align: center">
+					<td colspan="2"><input name="submit" type="submit" value="Login" /></td>
 				</tr>
 			</table>
 		</form>

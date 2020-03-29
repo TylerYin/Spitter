@@ -9,39 +9,42 @@ import com.spitter.dao.SpitterRepositoryDao;
 import com.spitter.orm.domain.Spitter;
 import com.spitter.service.SpitterRepositoryService;
 
+/**
+ * @author Tyler Yin
+ */
 @Service
 public class HibernateSpitterRepositoryServiceImpl implements SpitterRepositoryService {
 
-	@Autowired
-	private SpitterRepositoryDao spitterRepository;
+    @Autowired
+    private SpitterRepositoryDao spitterRepository;
 
-	@Override
-	public long count() {
-		return findAll().size();
-	}
+    @Override
+    public long count() {
+        return findAll().size();
+    }
 
-	@Override
-	public Spitter save(Spitter spitter) {
-		return spitterRepository.save(spitter);
-	}
+    @Override
+    public Spitter save(Spitter spitter) {
+        return spitterRepository.save(spitter);
+    }
 
-	@Override
-	public Spitter findOne(long id) {
-		return spitterRepository.findOne(id);
-	}
+    @Override
+    public Spitter findOne(long id) {
+        return spitterRepository.findOne(id);
+    }
 
-	@Override
-	public Spitter findByUserName(String userName) {
-		return spitterRepository.findByUserName(userName);
-	}
+    @Override
+    public Spitter findByUserName(String userName) {
+        return spitterRepository.findByUserName(userName);
+    }
 
-	@Override
-	public List<Spitter> findAll() {
-		return spitterRepository.findAll();
-	}
+    @Override
+    public List<Spitter> findAll() {
+        return spitterRepository.findAll();
+    }
 
-	@Override
-	public void delete(long id) {
-		spitterRepository.delete(id);
-	}
+    @Override
+    public void delete(long id) {
+        spitterRepository.delete(id);
+    }
 }

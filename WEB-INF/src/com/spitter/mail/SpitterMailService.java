@@ -4,8 +4,14 @@ import javax.mail.MessagingException;
 
 import com.spitter.orm.domain.Spittle;
 
+/**
+ * @author Tyler Yin
+ */
 public interface SpitterMailService {
 
-	public abstract void sendSimpleSpittleEmail(Spittle spittle) throws MessagingException;
-
+    /**
+     * @param spittle
+     * @throws MessagingException
+     */
+    void sendSimpleSpittleEmail(Spittle spittle) throws MessagingException;
 }
