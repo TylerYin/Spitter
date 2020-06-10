@@ -20,10 +20,11 @@ public class MailConfig {
     @Bean
     public JavaMailSenderImpl mailSender(Environment env) {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost(env.getProperty("mailserver.host"));
-        mailSender.setPort(Integer.parseInt(env.getProperty("mailserver.port")));
-        mailSender.setUsername(env.getProperty("mailserver.username"));
-        mailSender.setPassword(env.getProperty("mailserver.password"));
+        mailSender.setHost(env.getProperty("mail.server.host"));
+        mailSender.setPort(Integer.parseInt(env.getProperty("mail.server.port")));
+        mailSender.setUsername(env.getProperty("mail.server.username"));
+        mailSender.setPassword(env.getProperty("mail.server.password"));
+        mailSender.setDefaultEncoding("utf-8");
         return mailSender;
     }
 
