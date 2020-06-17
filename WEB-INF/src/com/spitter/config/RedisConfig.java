@@ -31,7 +31,10 @@ public class RedisConfig {
         JedisConnectionFactory cf = new JedisConnectionFactory();
         cf.setUsePool(true);
         cf.setPort(6379);
-        cf.setPassword("");
+
+        //工作单位的redis密码，家里的置为空字符串
+        cf.setPassword("7Ugfs43e");
+
         cf.setHostName("127.0.0.1");
         cf.setPoolConfig(jredisPoolConfig());
         return cf;
